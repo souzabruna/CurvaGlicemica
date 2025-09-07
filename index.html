@@ -14,52 +14,72 @@
     }
     canvas {
       max-width: 100%;
-      margin: 0 auto;
+      margin: 20px auto;
     }
   </style>
 </head>
 <body>
-  <h3>Curva Glicêmica</h3>
-  <canvas id="myChart" width="1000"></canvas>
 
+
+  <h3>Curva Glicêmica - 06 de Setembro</h3>
+  <canvas id="chartSep6" width="1000"></canvas>
+  <h3 style="margin-top: 80px;">Curva Glicêmica - 05 de Setembro</h3>
+  <canvas id="chartSep5" width="1000"></canvas>
   <!-- Importando Chart.js via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <script>
-    const data = {
-      labels: ["6:50", "7:50", "8:50", "9:50", "10:50", "11:50", "12:50", "13:50", "14:50", "15:50", "16:50", "17:50", "18:50"],
-      datasets: [{
-        label: "Glicemia",
-        data: [422,422,418,369,362,325,304,348,297,321,293,384],
-        fill: true,
-        backgroundColor: "rgba(151,187,205,0.2)",
-        borderColor: "rgba(151,187,205,1)",
-        tension: 0.4,
-        pointBackgroundColor: "rgba(151,187,205,1)",
-        pointBorderColor: "#fff"
-      }]
-    };
+    // Dados do gráfico do dia 5
+    const labelsSep5 = ["6:50", "7:50", "8:50", "9:50", "10:50", "11:50", "12:50", "13:50", "14:50", "15:50", "16:50", "17:50", "18:50"];
+    const dataSep5 = [422,422,418,369,362,325,304,348,297,321,293,384,400];
 
-    const config = {
-      type: 'line',
-      data: data,
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            display: false
-          }
+    // Dados do gráfico do dia 6
+    const labelsSep6 = ["8:50", "10:50", "12:50", "14:50", "16:50", "18:50", "20:50"];
+    const dataSep6 = [372, 269, 278, 285, 305, 333, 365];
+
+    function createChart(ctx, labels, label, data, color) {
+      return new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: label,
+            data: data,
+            fill: true,
+            backgroundColor: color.background,
+            borderColor: color.border,
+            tension: 0.4,
+            pointBackgroundColor: color.border,
+            pointBorderColor: "#fff"
+          }]
         },
-        scales: {
-          y: {
-            beginAtZero: false
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: false
+            }
           }
         }
-      }
-    };
+      });
+    }
 
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, config);
+    const ctx5 = document.getElementById('chartSep5').getContext('2d');
+    const chartSep5 = createChart(ctx5, labelsSep5, "Glicemia 05/09", dataSep5, {
+      background: "rgba(151,187,205,0.2)",
+      border: "rgba(151,187,205,1)"
+    });
+
+    const ctx6 = document.getElementById('chartSep6').getContext('2d');
+    const chartSep6 = createChart(ctx6, labelsSep6, "Glicemia 06/09", dataSep6, {
+      background: "rgba(255,159,64,0.2)",
+      border: "rgba(255,159,64,1)"
+    });
   </script>
 </body>
 </html>
